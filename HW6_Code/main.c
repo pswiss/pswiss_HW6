@@ -314,8 +314,15 @@ int main() {
         
     // Initialize the Timer
     _CP0_SET_COUNT(0);
-    float T_FPS = 1/25;
-    int timetoWait = 48000000*T_FPS/2;
+    
+    int timetoWait = 48000000*0.001/2;
+    int numberTimerLimit = 200;
+    int numberTimer = 0;
+    
+    // Number Counter
+    int numberCountMin = 0;
+    int numberCountMax = 100;
+    int numberCount = numberCountMin;
     
     
     // Configure Bits
@@ -329,9 +336,12 @@ int main() {
     LCD_clearScreen(colorWHITE);
     // Color: RRRRR GGGGGG BBBBB
     char message[100];
-    sprintf(message,"Petras");
-    //draw_Character(500, 500, 'P', colorBLUE, colorWHITE );
-    draw_Message(10, 10, message, colorBLUE, colorWHITE );
+    char statusBar[100];
+    sprintf(message,"Hello, World ");
+    draw_Message(10, 10, message, colorRED, colorWHITE );
+    
+    sprintf(message,"%d !   ",numberCount);
+    draw_Message(10+13*charWidth, 10, message, colorBLUE, colorWHITE);
     
     while(1) {
         
@@ -339,6 +349,20 @@ int main() {
         if(_CP0_GET_COUNT()>timetoWait)
         {
             _CP0_SET_COUNT(0);
+            numberTimer++;
+            if(numberTimer==numberTimerLimit)
+            {
+                numberTimer= 0; // Reset Timer
+                numberCount++;
+                if(numberCount > numberCountMax)
+                {
+                    numberCount = numberCountMin;
+                }
+                
+                sprintf(message,"%d !   ",numberCount);
+                draw_Message(10+13*charWidth, 10, message, colorBLUE, colorWHITE);
+                
+            }
                         
         }
     }
