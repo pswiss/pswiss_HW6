@@ -282,12 +282,13 @@ void draw_Character(unsigned short x, unsigned short y, unsigned short character
     }
 }
 
-void draw_Message(unsigned short x, unsigned short y, char message, unsigned short frontColor, unsigned short backColor )
+void draw_Message(unsigned short x, unsigned short y, char* message, unsigned short frontColor, unsigned short backColor )
 {
     int i = 0;
     while(message[i]!=0)
     {
-        draw_Character(x, y, message[i], frontColor, backColor);
+        draw_Character(x+i*charWidth, y, message[i], frontColor, backColor);
+        i++;
     }
 }
 
@@ -330,7 +331,7 @@ int main() {
     char message[100];
     sprintf(message,"Petras");
     //draw_Character(500, 500, 'P', colorBLUE, colorWHITE );
-    draw_Message(10, 10, *message, colorBLUE, colorWHITE );
+    draw_Message(10, 10, message, colorBLUE, colorWHITE );
     
     while(1) {
         
